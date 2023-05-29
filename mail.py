@@ -19,11 +19,11 @@ import numpy as np
 Custom developed reminder script, to send regular emails to tool issuers reminding the due date for return of tools"""
 
 # Defining scopes for google apis. If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/gmail.compose','https://www.googleapis.com/auth/spreadsheets.readonly']#,'https://www.googleapis.com/auth/gmail.labels','https://docs.google.com/spreadsheets/d/1u8MKw8xLN-M4MqZ32F_Q887A1TL48CUy6bFyGhjerrw'
-SAMPLE_SPREADSHEET_ID = '1VZiASU5mcS8k_2VkooUil5yMl_YgLHsvJZTD1lhp6rI'#'1RgoQ02GCE0AtvH1yqDHS1l7QQ5iFUUKAEQlTxBpnlvA'#'1u8MKw8xLN-M4MqZ32F_Q887A1TL48CUy6bFyGhjerrw'#'1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms' #'16VlOi4JweXuDxtdJ3TDEnO_gPO8jkR__CbdVOUINzbs'#
+SCOPES = ['https://www.googleapis.com/auth/gmail.compose','https://www.googleapis.com/auth/spreadsheets.readonly']
+SAMPLE_SPREADSHEET_ID = 'replace with sheet ID'
 SAMPLE_RANGE_NAME = 'Form Responses 2!A:O'#'2021-22!A:O'
-
-#Function to send mail with list of tools "li" to be returned.
+#Function to send mail with list of tools "li" to be returned
+.
 def sendMail(creds,dest,li):
     """Function to draft and send email"""
     try:
@@ -35,7 +35,7 @@ def sendMail(creds,dest,li):
         message.set_content('Hi Tool Issuer,\n\nThis is a gentle reminder to return a tool/tool(s) - {} you issued from Machineshop within the next 2 days.\nTo avoid receiving further reminders, please make sure that the staff records the receipt of tools.\n\nKindly adhere to the \"Return Policies\" in order to avoid inconvinience to others and for timely issue of NOCs.\n\nRegards,\nMachineshop\nAB06/106'.format(str(li).removeprefix("[").removesuffix("]")))
         #Set destination email, sender's email and subject.
         message['To'] = dest
-        message['From'] = 'machineshop@iitgn.ac.in'
+        message['From'] = 'Senders email ID'
         message['Subject'] = 'Gentle Reminder!'
 
         # Encoded message
