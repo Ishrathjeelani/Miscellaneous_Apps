@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head id="head">
+    <base target="_top">
+  </head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<!-- <script src="index.js"></script> -->
+    <script>
+function validateForm() {
+  let x = document.forms["addForm"]["qty"].value;
+  if (x == "" || Number(x)<=0) {
+    google.script.run.addCheck();
+  }else{
+    AddRow();
+  }
+}
+
+  function loadProducts() {
+    google.script.run.withSuccessHandler(function(ar) 
+    {
+      var prodSelect = document.getElementById("products");
+      console.log(ar);
+      
+      let option = document.createElement("option");
+      option.value = "";
+      option.text = "";
+      prodSelect.appendChild(option);
+    
+      ar.forEach(function(item, index) 
+      {    
+        let option = document.createElement("option");
+        option.value = item[0];
+        option.text = item[1];
+        prodSelect.appendChild(option);    
+      });
+    
+    }).getList();
+  };
+  
+  
+
+  function onSelect() 
+  {
+    var prodID = document.getElementById("products").value;
+    document.getElementById("prodValue").innerHTML = prodID;
+    
+  };
+
+  function AddRow()
+    {
+    var qty = document.getElementById("qty").value;
+    var prod = document.getElementById("products");
+    var prodName = prod.options[prod.selectedIndex].value;
+    google.script.run.AddRecord(prodName,qty);
+    // // var head = document.getElementById("head");
+    // const div = document.createElement("div");
+    // const msg = document.createTextNode('Success!');
+    // div.appendChild(msg);
+    // document.head.appendChild(div);
+    //google.script.run.showDialog();
+    google.script.run.successAlert();
+    }
+
+</script>
+
+  <body>
+  <!-- <div id="head" style="display:block" class="alert alert-success alert-dismissible d-flex align-items-center fade show">
+    <strong class="mx-2">Stock Updated.</strong> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div> -->
+  <div style="padding: 10px;" >
+  <form name="addForm">
+  <div class="form-row" style="padding: 10px;">
+  <label>Product Name</label>
+  <select id="products" required='true' onchange="onSelect()" class="form-control" placeholder="Select"></select><br>
+  <span id="prodName" ></span>
+  <script>loadProducts();</script> 
+  </div>
+  <div class="form-row" style="padding: 10px;">
+  <label>Quantity</label>  
+  <input type="text" name='qty' id="qty" required='true' class="form-control" placeholder="Enter a valid number" />
+  </div>
+  <div class="form-row" style="padding: 10px;">
+  <input type="button" align="center" value="Add" onclick="validateForm()" class="btn btn-primary btn-lg btn-block" />
+  </div>
+   <div id="display_error" style="color: red" ></div>
+  </div>
+  </form>
+  </div>
+  </body>
+</html>
+

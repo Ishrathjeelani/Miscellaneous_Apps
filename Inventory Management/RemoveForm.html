@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script>
+      function validateForm() {
+  let x = document.forms["remForm"]["qty"].value;
+  let r = document.forms["remForm"]["reason"].value;
+  if(r==""){
+    google.script.run.reasonCheck();
+  }
+  else if (x == "" || Number(x)<=0) {
+    google.script.run.addCheck();
+  }else{
+    RemRow();
+  }
+}
+
+  function loadProducts() {
+    google.script.run.withSuccessHandler(function(ar) 
+    {
+      var prodSelect = document.getElementById("products");
+      console.log(ar);
+      
+      let option = document.createElement("option");
+      option.value = "";
+      option.text = "";
+      prodSelect.appendChild(option);
+    
+      ar.forEach(function(item, index) 
+      {    
+        let option = document.createElement("option");
+        option.value = item[0];
+        option.text = item[1];
+        prodSelect.appendChild(option);    
+      });
+    
+    }).getList();
+  };
+  
+  function onSelect() 
+  {
+    var prodID = document.getElementById("products").value;
+    document.getElementById("prodValue").innerHTML = prodID;
+    
+  };
+
+  function showAlert(){
+google.script.run.removeAlert();
+  }
+
+  function RemRow()
+    {
+    var qty = document.getElementById("qty").value;
+    var prod = document.getElementById("products");
+    var prodName = prod.options[prod.selectedIndex].value;
+    var reason = document.getElementById("reason").value;
+    //google.script.run.withSuccessHandler(showData).getData(condn,qty);
+    google.script.run.withSuccessHandler(showAlert).RemRecord(prodName,qty,reason);
+        
+    }
+
+</script>
+
+  <body>
+  <div style="padding: 10px;" >
+  <form name="remForm">
+  <div class="form-row" style="padding: 10px;">
+  <label>Product Name</label>
+  <select id="products" onchange="onSelect()" class="form-control" placeholder="Select"></select><br>
+  <span id="prodName" ></span>
+  <script>loadProducts();</script> 
+  </div>
+  <div class="form-row" style="padding: 10px;">
+  <label>Quantity</label>  
+  <input type="text" name="qty" id="qty" class="form-control" placeholder="Enter a valid number"/>
+  </div>
+  <div class="form-row" style="padding: 10px;">
+  <label>Reason</label>  
+  <input type="text" id="reason" name="reason" required='true' class="form-control" placeholder="Details of removal"/>
+  </div>
+  <div class="form-row" style="padding: 10px;">
+  <input type="button" align="center" value="Remove" onclick="validateForm()" class="btn btn-warning btn-lg btn-block" />
+  </div>
+   <div id="display_error" style="color: red" ></div>
+  </div>
+  </form>
+  </div>
+  </body>
+</html>
+

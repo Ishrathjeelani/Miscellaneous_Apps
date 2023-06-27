@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<script>
+  function setProdName()
+    {
+    
+    google.script.run.AddRecord(prodName,qty);
+    }
+</script>
+
+  <body>
+  <div style="padding: 10px;" >
+  <form>
+  <div class="form-row" style="padding: 10px;">
+  <label>Product Name</label>  
+  <label>Product Name</label>   
+  <input type="text" id="qty" readonly class="form-control-plaintext" class="form-control" value="setProdName()" />
+  </div>
+  <label>Current Stock</label>  
+  <input type="text" id="qty" readonly class="form-control-plaintext" class="form-control" value="setIniStock()" />
+  </div>
+   <div id="display_error" style="color: red" ></div>
+  </div>
+  </form>
+  </div>
+  </body>
+</html>
+
